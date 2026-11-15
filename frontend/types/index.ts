@@ -54,6 +54,7 @@ export type SiteSettings = {
   introLabel?: string;
   introFenceLabel?: string;
   introPalmLabel?: string;
+  introTheelLabel?: string;
   introLinkLabel?: string;
   aboutImageAlt?: string;
   aboutImageKicker?: string;

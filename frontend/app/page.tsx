@@ -177,7 +177,7 @@ export default async function Home() {
                 <div className="mt-5 flex flex-wrap gap-2.5">
                   <span className="inline-flex items-center gap-2 rounded-full border border-[#e1e8db] bg-white px-3.5 py-2 text-[13px] font-bold text-[#52644f]"><Fence size={16} className="text-[#718d4e]" /> {siteSettings.introFenceLabel || "تنظيم وحماية المساحة"}</span>
                   <span className="inline-flex items-center gap-2 rounded-full border border-[#e1e8db] bg-white px-3.5 py-2 text-[13px] font-bold text-[#52644f]"><Sprout size={16} className="text-[#718d4e]" /> {siteSettings.introPalmLabel || "تنسيق يليق بالمكان"}</span>
-                  <span className="inline-flex items-center gap-2 rounded-full border border-[#e1e8db] bg-white px-3.5 py-2 text-[13px] font-bold text-[#52644f]"><Leaf size={16} className="text-[#718d4e]" /> {siteSettings.introTheelLabel || "مسطحات خضراء وثيل"}</span>
+                  <span className="inline-flex items-center gap-2 rounded-full border border-[#e1e8db] bg-white px-3.5 py-2 text-[13px] font-bold text-[#52644f]"><Leaf size={16} className="text-[#718d4e]" /> مسطحات خضراء وثيل</span>
                 </div>
                 <Link href="/about" className="mt-5 inline-flex items-center gap-2 text-base font-bold text-[#0d231b] transition hover:text-[#718d4e]">{siteSettings.introLinkLabel || "تعرّف علينا"} <ArrowLeft size={16} /></Link>
               </div>

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowLeft, Check, Fence, Sprout, Leaf } from "lucide-react";
 import SiteNavbar from "../../components/layout/SiteNavbar";
 import Footer from "../../components/layout/Footer";
-import { categories } from "../../lib/brand";
+import { categories, BRAND_NAME } from "../../lib/brand";
 import { getPublicSiteSettings, getSiteName } from "../../lib/site-settings";
 import type { Metadata } from "next";
 
@@ -28,7 +28,7 @@ export const dynamic = "force-dynamic";
 
 export default async function AboutPage() {
   const settings = await getPublicSiteSettings();
-  const siteName = settings.siteName || "الشبوك والنخيل";
+  const siteName = settings.siteName || BRAND_NAME;
   const aboutHighlights = (settings.aboutHighlights || "حل يناسب طبيعة الموقع\nخطوات واضحة\nاهتمام بالتفاصيل\nتواصل مباشر").split("\n").filter(Boolean);
   const aboutSteps = [
     [settings.aboutStep1Title || "نفهم الموقع", settings.aboutStep1Description || "نسمع احتياجك ونتعرف على طبيعة الأرض."],

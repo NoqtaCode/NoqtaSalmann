@@ -12,6 +12,7 @@ export default defineType({
       options: { list: [
         { title: 'الشبوك', value: 'fences' },
         { title: 'النخيل', value: 'palms' },
+        { title: 'الثيل', value: 'theel' },
       ] },
       validation: (rule) => rule.required(),
     }),

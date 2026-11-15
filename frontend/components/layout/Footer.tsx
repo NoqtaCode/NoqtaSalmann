@@ -1,12 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpLeft, Code2, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
-import { categories } from "../../lib/brand";
+import { categories, BRAND_NAME } from "../../lib/brand";
 import { getPublicSiteSettings } from "../../lib/site-settings";
 
 export default async function Footer() {
   const settings = await getPublicSiteSettings();
-  const siteName = settings.siteName || "الشبوك والنخيل";
+  const siteName = settings.siteName || BRAND_NAME;
   const contact = settings;
   const phone = contact.phone || "0502237446";
   const phoneLink = phone.replace(/[^\d+]/g, "");
@@ -40,7 +40,7 @@ export default async function Footer() {
             )}
             <span className="text-lg sm:text-xl font-black">{siteName}</span>
           </Link>
-          <p className="max-w-sm text-sm leading-7 text-white/75">{settings.footerDescription || "حلول متخصصة في تركيب الشبوك وتوريد وزراعة النخيل، من التخطيط للموقع حتى اكتمال التنفيذ."}</p>
+          <p className="max-w-sm text-sm leading-7 text-white/75">{settings.footerDescription || "حلول متخصصة في تركيب الشبوك وتوريد وزراعة النخيل وتركيب الثيل، من التخطيط للموقع حتى اكتمال التنفيذ."}</p>
           <Link href="/contact" className="mt-5 inline-flex items-center gap-2 text-sm font-black text-[#dca842] hover:text-white transition">{settings.footerCtaLabel || "ابدأ الحديث عن مشروعك"} <ArrowUpLeft size={16} /></Link>
         </div>
 
@@ -104,23 +104,22 @@ export default async function Footer() {
       <div className="border-t border-white/10 px-5 py-5 sm:px-9 lg:px-14 pb-28 sm:pb-6">
         <div className="mx-auto flex max-w-[1400px] flex-col items-center justify-between gap-4 text-xs text-white/65 sm:flex-row">
           <span>© {new Date().getFullYear()} {siteName}. جميع الحقوق محفوظة.</span>
-          <span className="hidden md:inline-block">{settings.footerTagline || "الشبوك والنخيل — عناية تبدأ من الأرض."}</span>
+          <span className="hidden md:inline-block">{settings.footerTagline || "شبوك ونخيل وثيل — عناية تبدأ من الأرض."}</span>
           
           {/* شارة تصميم وتطوير NoqtaCode مع الرقم ورابط مباشر للواتساب */}
           <a
             href="https://wa.me/967737543563"
             target="_blank"
             rel="noreferrer"
-            aria-label="تواصل مع نقطة كود عبر واتساب 967737543563"
-            className="group inline-flex items-center gap-2.5 rounded-full bg-black/40 border border-white/15 px-3.5 py-1.5 shadow-inner transition-all duration-300 hover:border-[#25D366]/60 hover:bg-black/60 hover:scale-105"
+            aria-label="تواصل مع NoqtaCode عبر واتساب 967737543563"
+            className="group inline-flex items-center gap-2 rounded-full bg-black/40 border border-white/15 px-3.5 py-1.5 shadow-inner transition-all duration-300 hover:border-[#10b981]/60 hover:bg-black/60 hover:scale-105"
           >
             <span className="text-[#10b981] font-bold text-xs">تطوير وتصميم</span>
-            <span className="inline-flex items-center gap-1">
+            <span className="inline-flex items-center gap-1 font-bold text-xs" dir="ltr">
               <span className="font-mono font-black text-[#f97316] text-xs tracking-tight">&lt;/&gt;</span>
-              <span className="font-bold text-white text-xs">Noqta</span>
-              <span className="font-bold text-[#f97316] text-xs">Code</span>
+              <span className="text-white">Noqta</span>
+              <span className="text-[#f97316]">Code</span>
             </span>
-            <MessageCircle size={13} className="text-[#25D366] shrink-0 group-hover:scale-110 transition-transform" />
           </a>
         </div>
       </div>

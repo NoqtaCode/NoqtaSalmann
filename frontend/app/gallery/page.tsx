@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowLeft, ArrowUpLeft, Images } from "lucide-react";
 import SiteNavbar from "../../components/layout/SiteNavbar";
 import Footer from "../../components/layout/Footer";
-import { categories } from "../../lib/brand";
+import { categories, BRAND_NAME } from "../../lib/brand";
 import type { Metadata } from "next";
 import { getPublicSiteSettings } from "../../lib/site-settings";
 
@@ -12,16 +12,16 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getPublicSiteSettings();
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://nakheel-seyaj.com";
-  const siteName = settings.siteName || "الشبوك والنخيل";
+  const siteName = settings.siteName || BRAND_NAME;
   return { 
-    title: `معرض صور مشاريع الشبوك ومزارع النخيل | ${siteName}`, 
-    description: `استعرض صور أعمالنا ومشاريعنا المنجزة على أرض الواقع: تركيب شبوك المزارع والمواقع الأمنية، وتوريد وزراعة وتنسيق نخيل التمور والواشنطونيا في مختلف مناطق المملكة.`,
+    title: `معرض صور مشاريع الشبوك ومزارع النخيل والثيل | ${siteName}`, 
+    description: `استعرض صور أعمالنا ومشاريعنا المنجزة على أرض الواقع: تركيب شبوك المزارع والمواقع الأمنية، وتوريد وزراعة وتنسيق نخيل التمور والواشنطونيا، وتوريد وتركيب الثيل في مختلف مناطق المملكة.`,
     alternates: {
       canonical: `${siteUrl}/gallery`,
     },
     openGraph: {
-      title: `معرض صور مشاريع الشبوك ومزارع النخيل | ${siteName}`,
-      description: `شاهد صور حية من مشاريع تركيب الشبوك وتوريد وغرس النخيل في السعودية.`,
+      title: `معرض صور مشاريع الشبوك ومزارع النخيل والثيل | ${siteName}`,
+      description: `شاهد صور حية من مشاريع تركيب الشبوك وتوريد وغرس النخيل وتركيب الثيل في السعودية.`,
       url: `${siteUrl}/gallery`,
     }
   };

@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 import SiteNavbar from "../../components/layout/SiteNavbar";
 import Footer from "../../components/layout/Footer";
-import { categories } from "../../lib/brand";
+import { categories, BRAND_NAME } from "../../lib/brand";
 import { getPublicSiteSettings, getSiteName } from "../../lib/site-settings";
 import type { Metadata } from "next";
 
@@ -260,7 +260,7 @@ const guarantees = [
 
 export default async function ServicesPage() {
   const settings = await getPublicSiteSettings();
-  const siteName = settings.siteName?.trim() || "الشبوك والنخيل";
+  const siteName = settings.siteName?.trim() || BRAND_NAME;
   
   const phone = settings.phone?.replace(/[^\d+]/g, "");
   const whatsapp = settings.whatsapp?.replace(/\D/g, "") || phone?.replace(/\D/g, "");

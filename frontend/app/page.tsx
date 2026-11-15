@@ -24,7 +24,7 @@ export default async function Home() {
       getPublicSiteSettings(),
     safeFetchFresh<{ _id: string; title: string; category: string; slug?: string; imageUrl: string; description?: string }[]>(`
       *[_type in ["project", "gallery"] && (status == "published" || _type == "gallery") && (defined(image.asset->url) || defined(mainImage.asset->url)) && category in ["fences", "palms", "shabouk", "nakheel", "theel"]]
-        | order(_createdAt desc)[0...9] {
+        | order(_createdAt desc)[0...30] {
           _id, 
           "title": coalesce(title, select(category in ["fences", "shabouk"] => "مشروع تركيب وتوريد شبوك", category == "theel" => "مشروع توريد وتركيب ثيل", "مشروع توريد وزراعة نخيل")), 
           category, 
@@ -35,7 +35,38 @@ export default async function Home() {
     `, []),
   ]);
   const siteSettings = settings ?? {};
-  const showcaseList = (projects && projects.length > 0) ? projects : defaultShowcaseProjects;
+  
+  // توزيع متوازن لصور أعمالنا (3 شبوك + 3 نخيل + 3 ثيل) لضمان التنوع وعدم اقتصار المعرض على قسم واحد
+  const defaultFences = defaultShowcaseProjects.filter(p => p.category === "fences");
+  const defaultPalms = defaultShowcaseProjects.filter(p => p.category === "palms");
+  const defaultTheel = defaultShowcaseProjects.filter(p => p.category === "theel");
+
+  const sanityFences = (projects || []).filter(p => p.category === "fences" || p.category === "shabouk");
+  const sanityPalms = (projects || []).filter(p => p.category === "palms" || p.category === "nakheel");
+  const sanityTheel = (projects || []).filter(p => p.category === "theel");
+
+  const pickCategoryItems = (sanityItems: typeof projects, defaultItems: typeof defaultShowcaseProjects, count = 3) => {
+    const combined = [...(sanityItems || [])];
+    for (const def of defaultItems) {
+      if (combined.length >= count) break;
+      if (!combined.some(item => item._id === def._id || item.imageUrl === def.imageUrl)) {
+        combined.push(def);
+      }
+    }
+    return combined.slice(0, count);
+  };
+
+  const selectedFences = pickCategoryItems(sanityFences, defaultFences, 3);
+  const selectedPalms = pickCategoryItems(sanityPalms, defaultPalms, 3);
+  const selectedTheel = pickCategoryItems(sanityTheel, defaultTheel, 3);
+
+  // دمجها بشكل متناوب (شبوك، نخيل، ثيل) ليظهر المعرض متنوعاً ومنسقاً
+  const showcaseList: { _id: string; title: string; category: string; slug?: string; imageUrl: string; description?: string }[] = [];
+  for (let i = 0; i < 3; i++) {
+    if (selectedFences[i]) showcaseList.push(selectedFences[i]);
+    if (selectedPalms[i]) showcaseList.push(selectedPalms[i]);
+    if (selectedTheel[i]) showcaseList.push(selectedTheel[i]);
+  }
   const siteName = siteSettings.siteName?.trim() || BRAND_NAME;
   const phone = siteSettings.phone?.replace(/[^\d+]/g, "");
   const whatsapp = siteSettings.whatsapp?.replace(/\D/g, "") || siteSettings.phone?.replace(/\D/g, "");
@@ -80,8 +111,8 @@ export default async function Home() {
           <div className="mx-auto w-full max-w-[1440px] px-5 pb-24 pt-40 sm:px-9 sm:pb-28 sm:pt-44 lg:px-14">
             <div className="max-w-[780px]">
               <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-sm font-bold text-white/90 shadow-sm backdrop-blur-md"><span className="h-2 w-2 rounded-full bg-[#dca842]" /> {siteSettings.heroBadge || "حلول تبدأ من طبيعة أرضك"}</span>
-              <h1 className="mt-7 text-5xl font-bold leading-[1.3] text-white sm:text-6xl lg:text-[5.2rem]">{siteSettings.heroTitle?.trim() || "الشبوك والنخيل،"}<br /><span className="text-[#dca842]">{siteSettings.heroSubTitle?.trim() || "بشكل يليق بأرضك."}</span></h1>
-              <p className="mt-6 max-w-xl text-lg leading-9 text-white/90 sm:text-xl sm:leading-10">{siteSettings.heroDescription?.trim() || `${siteName} يجهز المساحات بحلول عملية للشبوك والنخيل، من اختيار الأنسب للموقع حتى ترتيب التنفيذ.`}</p>
+              <h1 className="mt-7 text-5xl font-bold leading-[1.3] text-white sm:text-6xl lg:text-[5.2rem]">{siteSettings.heroTitle?.trim() || "شبوك ونخيل وثيل،"}<br /><span className="text-[#dca842]">{siteSettings.heroSubTitle?.trim() || "بشكل يليق بأرضك."}</span></h1>
+              <p className="mt-6 max-w-xl text-lg leading-9 text-white/90 sm:text-xl sm:leading-10">{siteSettings.heroDescription?.trim() || `${siteName} يجهز المساحات بحلول عملية للشبوك والنخيل والثيل، من اختيار الأنسب للموقع حتى ترتيب التنفيذ.`}</p>
               
               <div className="mt-8 flex flex-wrap items-center gap-3.5">
                 <Link 
@@ -142,10 +173,11 @@ export default async function Home() {
                 <h2 id="intro-title" className="mt-4 max-w-[620px] text-4xl font-bold leading-[1.4] sm:text-[2.75rem] lg:text-[3.1rem]">{siteSettings.introTitle?.trim() || "نرتّب حدود أرضك، ونضيف لها حياة."}</h2>
               </div>
               <div>
-                <p className="max-w-[620px] text-base leading-8 text-[#58695e] sm:text-lg sm:leading-9">{siteSettings.introDescription || "لكل أرض احتياجها؛ نساعدك على تجهيز المساحة بحلول الشبوك والنخيل، باختيارات عملية تراعي طبيعة الموقع وتسهّل عليك ترتيب الخطوة القادمة."}</p>
+                <p className="max-w-[620px] text-base leading-8 text-[#58695e] sm:text-lg sm:leading-9">{siteSettings.introDescription || "لكل أرض احتياجها؛ نساعدك على تجهيز المساحة بحلول الشبوك والنخيل والثيل، باختيارات عملية تراعي طبيعة الموقع وتسهّل عليك ترتيب الخطوة القادمة."}</p>
                 <div className="mt-5 flex flex-wrap gap-2.5">
                   <span className="inline-flex items-center gap-2 rounded-full border border-[#e1e8db] bg-white px-3.5 py-2 text-[13px] font-bold text-[#52644f]"><Fence size={16} className="text-[#718d4e]" /> {siteSettings.introFenceLabel || "تنظيم وحماية المساحة"}</span>
                   <span className="inline-flex items-center gap-2 rounded-full border border-[#e1e8db] bg-white px-3.5 py-2 text-[13px] font-bold text-[#52644f]"><Sprout size={16} className="text-[#718d4e]" /> {siteSettings.introPalmLabel || "تنسيق يليق بالمكان"}</span>
+                  <span className="inline-flex items-center gap-2 rounded-full border border-[#e1e8db] bg-white px-3.5 py-2 text-[13px] font-bold text-[#52644f]"><Leaf size={16} className="text-[#718d4e]" /> {siteSettings.introTheelLabel || "مسطحات خضراء وثيل"}</span>
                 </div>
                 <Link href="/about" className="mt-5 inline-flex items-center gap-2 text-base font-bold text-[#0d231b] transition hover:text-[#718d4e]">{siteSettings.introLinkLabel || "تعرّف علينا"} <ArrowLeft size={16} /></Link>
               </div>
@@ -199,7 +231,7 @@ export default async function Home() {
         <section className="mx-auto max-w-[1400px] px-5 py-14 sm:px-9 sm:py-20 lg:px-14">
           <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end sm:gap-8">
             <div><span className="inline-flex rounded-full bg-[#eaf1df] px-3.5 py-1.5 text-[11px] font-black text-[#688747]">{siteSettings.benefitsLabel || "ليش تبدأ معنا؟"}</span><h2 className="mt-3 text-3xl font-black leading-tight sm:text-4xl">{siteSettings.benefitsTitle || "وضوح من أول خطوة، وعناية بكل تفصيل."}</h2></div>
-            <p className="max-w-lg text-sm leading-7 text-[#68776b] sm:text-base">{siteSettings.benefitsDescription || "نبدأ بفهم الموقع، ونرتب لك الخيارات المناسبة للشبوك أو النخيل، ثم نتابع تفاصيل التنفيذ معك."}</p>
+            <p className="max-w-lg text-sm leading-7 text-[#68776b] sm:text-base">{siteSettings.benefitsDescription || "نبدأ بفهم الموقع، ونرتب لك الخيارات المناسبة للشبوك أو النخيل أو الثيل، ثم نتابع تفاصيل التنفيذ معك."}</p>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
             {steps.map(({ number, title, description, Icon }, index) => <article key={number} className={`group relative min-h-[230px] overflow-hidden rounded-[1.6rem] border p-6 transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(24,55,47,0.12)] sm:p-7 ${index === 1 ? "border-[#173a31] bg-[#173a31] text-white" : "border-[#e2e8de] bg-[#fbfcf8] text-[#173a31]"}`}>
@@ -404,7 +436,7 @@ export default async function Home() {
         <section className="mx-auto max-w-[1400px] px-5 pb-16 sm:px-9 sm:pb-24 lg:px-14">
           <div className="relative overflow-hidden rounded-[2rem] bg-[#173a31] px-6 py-10 text-white sm:px-10 sm:py-14 lg:px-16">
             <div className="absolute -left-12 -top-20 h-64 w-64 rounded-full bg-[#d2bb83]/15 blur-3xl" />
-            <div className="relative flex flex-col justify-between gap-6 sm:flex-row sm:items-end"><div><span className="text-xs font-black tracking-[0.14em] text-[#dca842]">{siteSettings.ctaEyebrow || "خطوتك القادمة"}</span><h2 className="mt-3 text-3xl font-black leading-tight sm:text-4xl">{siteSettings.ctaTitle || "خلّنا نرتبها معك."}</h2><p className="mt-3 text-sm text-white/80">{siteSettings.ctaDescription || "تحدث معنا عن احتياجك من الشبوك أو النخيل."}</p></div><div className="flex flex-wrap gap-3"><Link href="/contact" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#dca842] to-[#f0c868] px-7 text-sm font-black text-[#0d231b] shadow-md transition hover:brightness-110 active:scale-95">{siteSettings.heroContactLabel || siteSettings.navQuoteLabel || "تواصل معنا"} <ArrowUpLeft size={16} /></Link>{whatsapp && <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noreferrer" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 text-sm font-black text-white transition hover:bg-white/20">{siteSettings.contactWhatsAppLabel || "واتساب"}</a>}{phone && <a href={`tel:${phone}`} className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 text-sm font-black text-white transition hover:bg-white/20">{siteSettings.contactPhoneLabel || "اتصال مباشر"}</a>}</div></div>
+            <div className="relative flex flex-col justify-between gap-6 sm:flex-row sm:items-end"><div><span className="text-xs font-black tracking-[0.14em] text-[#dca842]">{siteSettings.ctaEyebrow || "خطوتك القادمة"}</span><h2 className="mt-3 text-3xl font-black leading-tight sm:text-4xl">{siteSettings.ctaTitle || "خلّنا نرتبها معك."}</h2><p className="mt-3 text-sm text-white/80">{siteSettings.ctaDescription || "تحدث معنا عن احتياجك من الشبوك أو النخيل أو الثيل."}</p></div><div className="flex flex-wrap gap-3"><Link href="/contact" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#dca842] to-[#f0c868] px-7 text-sm font-black text-[#0d231b] shadow-md transition hover:brightness-110 active:scale-95">{siteSettings.heroContactLabel || siteSettings.navQuoteLabel || "تواصل معنا"} <ArrowUpLeft size={16} /></Link>{whatsapp && <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noreferrer" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 text-sm font-black text-white transition hover:bg-white/20">{siteSettings.contactWhatsAppLabel || "واتساب"}</a>}{phone && <a href={`tel:${phone}`} className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 text-sm font-black text-white transition hover:bg-white/20">{siteSettings.contactPhoneLabel || "اتصال مباشر"}</a>}</div></div>
           </div>
         </section>
       </main>

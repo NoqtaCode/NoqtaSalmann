@@ -1,7 +1,7 @@
 import { getSanityWriteError, safeFetchFresh, type SiteSettings } from "../../../lib/sanity";
 import { updateGeneralSettings, updateAccountSettings } from "../../../actions/settings";
 import SettingsSubmitButton from "../../../components/admin/SettingsSubmitButton"; 
-import { Globe, Phone, ShieldCheck, ImageIcon, Key, ShieldAlert, Plus, ArrowUpLeft } from "lucide-react";
+import { Globe, Phone, ShieldCheck, ImageIcon, Key, ShieldAlert, Plus, ArrowUpLeft, Fence, Sprout, Leaf, ImagePlus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -83,11 +83,11 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
               <div className="space-y-5 font-sans">
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-slate-500 mr-1">اسم الموقع (يظهر في الهيدر، الفوتر، والتبويبة)</label>
-                  <input name="siteName" defaultValue={settings.siteName || "الشبوك والنخيل"} placeholder="مثال: الشبوك والنخيل" className="w-full border-2 border-slate-100 rounded-2xl p-4 text-black outline-none focus:border-blue-500 bg-slate-50 transition font-bold" />
+                  <input name="siteName" defaultValue={settings.siteName || "شبوك ونخيل وثيل"} placeholder="مثال: شبوك ونخيل وثيل" className="w-full border-2 border-slate-100 rounded-2xl p-4 text-black outline-none focus:border-blue-500 bg-slate-50 transition font-bold" />
                 </div>
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-slate-500 mr-1">الاسم / العنوان في صدارة الواجهة الرئيسية</label>
-                  <input name="heroTitle" defaultValue={settings.heroTitle || "الشبوك والنخيل،"} placeholder="مثال: الشبوك والنخيل،" className="w-full border-2 border-slate-100 rounded-2xl p-4 text-black outline-none focus:border-blue-500 bg-slate-50 transition font-bold" />
+                  <input name="heroTitle" defaultValue={settings.heroTitle || "شبوك ونخيل وثيل،"} placeholder="مثال: شبوك ونخيل وثيل،" className="w-full border-2 border-slate-100 rounded-2xl p-4 text-black outline-none focus:border-blue-500 bg-slate-50 transition font-bold" />
                 </div>
               </div>  
             </div>
@@ -141,7 +141,69 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
               </div>
             </div>
 
-            {/* 3. صور واجهة العرض والمشاريع (الشبوك والنخيل) */}
+            {/* 2.5 خانة رفع وإدخال صور المعرض الميداني */}
+            <div className="bg-gradient-to-br from-blue-50/70 to-indigo-50/40 p-6 md:p-8 rounded-[2.5rem] shadow-sm border border-blue-100 space-y-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <h2 className="text-xl font-bold text-blue-950 flex items-center gap-2">
+                    <ImagePlus size={22} className="text-blue-600" /> خانة إدخال صور المعرض (أعمالنا الميدانية)
+                  </h2>
+                  <p className="text-xs text-slate-600 mt-1">
+                    أدخل صور أعمالك الميدانية لكل قسم من هنا لتظهر فوراً في معرض الموقع
+                  </p>
+                </div>
+                <Link 
+                  href="/admin/gallery" 
+                  className="text-xs font-bold text-blue-700 bg-white px-4 py-2 rounded-xl border border-blue-200 hover:bg-blue-600 hover:text-white transition shadow-sm self-start sm:self-auto inline-flex items-center gap-1.5"
+                >
+                  <ImageIcon size={15} />
+                  <span>معرض الصور الكامل</span>
+                </Link>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+                <Link 
+                  href="/admin/gallery/new?category=fences"
+                  className="flex items-center gap-3 p-4 rounded-2xl bg-white border border-blue-100 shadow-sm hover:border-blue-500 hover:shadow-md transition group"
+                >
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-100 text-blue-700 group-hover:scale-105 transition shrink-0">
+                    <Fence size={18} />
+                  </span>
+                  <div className="min-w-0">
+                    <h3 className="text-xs font-black text-slate-800">إدخال صور الشبوك</h3>
+                    <span className="text-[10px] text-blue-600 font-bold block mt-0.5">+ إضافة صور جديدة</span>
+                  </div>
+                </Link>
+
+                <Link 
+                  href="/admin/gallery/new?category=palms"
+                  className="flex items-center gap-3 p-4 rounded-2xl bg-white border border-blue-100 shadow-sm hover:border-emerald-500 hover:shadow-md transition group"
+                >
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 group-hover:scale-105 transition shrink-0">
+                    <Sprout size={18} />
+                  </span>
+                  <div className="min-w-0">
+                    <h3 className="text-xs font-black text-slate-800">إدخال صور النخيل</h3>
+                    <span className="text-[10px] text-emerald-600 font-bold block mt-0.5">+ إضافة صور جديدة</span>
+                  </div>
+                </Link>
+
+                <Link 
+                  href="/admin/gallery/new?category=theel"
+                  className="flex items-center gap-3 p-4 rounded-2xl bg-white border border-blue-100 shadow-sm hover:border-green-600 hover:shadow-md transition group"
+                >
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-green-100 text-green-700 group-hover:scale-105 transition shrink-0">
+                    <Leaf size={18} />
+                  </span>
+                  <div className="min-w-0">
+                    <h3 className="text-xs font-black text-slate-800">إدخال صور الثيل</h3>
+                    <span className="text-[10px] text-green-700 font-bold block mt-0.5">+ إضافة صور جديدة</span>
+                  </div>
+                </Link>
+              </div>
+            </div>
+
+            {/* 3. صور واجهة العرض والمشاريع (الشبوك والنخيل والثيل) */}
             <div className="bg-white p-6 md:p-8 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-6">
               <div>
                 <h2 className="text-xl font-bold text-blue-900 flex items-center gap-2">

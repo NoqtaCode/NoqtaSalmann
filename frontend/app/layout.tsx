@@ -26,7 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const siteName = settings.siteName?.trim() || BRAND_NAME;
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://nakheel-seyaj.com";
   const description = settings.description?.trim() || 
-    "مؤسسة متخصصة في تركيب شبوك المزارع والأراضي، الشبوك الأمنية والشائكة، وتوريد وزراعة أرقى سلالات نخيل التمور ونخيل الواشنطونيا للقصور والمشاريع بأعلى جودة وضمان في السعودية.";
+    "مؤسسة متخصصة في تركيب شبوك المزارع والأراضي، الشبوك الأمنية والشائكة، وتوريد وزراعة أرقى سلالات نخيل التمور ونخيل الواشنطونيا للقصور والمشاريع، وتوريد وتركيب الثيل الطبيعي والصناعي وتنسيق المسطحات الخضراء بأعلى جودة وضمان في السعودية.";
   const shareImage = settings.heroImageUrl || categories[0].image;
   const siteIcon = settings.logoImageUrl || "/favicon.ico";
 
@@ -39,6 +39,9 @@ export async function generateMetadata(): Promise<Metadata> {
     "توريد نخيل", "زراعة نخيل", "غرس نخيل", "بيع نخيل", "نخيل واشنطونيا", "نخيل زينة", "نخيل تمور",
     "نخيل سكري", "نخيل خلاص", "نخيل برحي", "نخيل مجدول", "قلع ونقل نخيل", "نقل نخيل بالرياض",
     "تكريب نخيل", "تنظيف نخيل", "مكافحة سوسة النخيل", "شبكات ري نخيل", "مشاتل نخيل", "تنسيق مزارع",
+    // كلمات الثيل والمسطحات الخضراء
+    "ثيل طبيعي", "ثيل صناعي", "تركيب ثيل", "عشب صناعي", "تنسيق حدائق", "مسطحات خضراء", "ثيل للحدائق",
+    "ثيل للملاعب", "عشب طبيعي", "تنسيق مزارع", "ري أوتوماتيكي", "صيانة ثيل",
     // كلمات عامة للمقاولات
     "مقاولات زراعية السعودية", "سياج ونخيل المملكة", "مقاول مزارع معتمد", siteName
   ];
@@ -46,7 +49,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL(siteUrl),
     title: {
-      default: `${siteName} | تركيب شبوك وتوريد وزراعة النخيل في السعودية`,
+      default: `${siteName} | تركيب شبوك وتوريد نخيل وتركيب ثيل في السعودية`,
       template: `%s | ${siteName}`,
     },
     description,

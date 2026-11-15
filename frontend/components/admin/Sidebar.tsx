@@ -13,6 +13,7 @@ import {
   LayoutDashboard,
   FolderKanban,
   ImageIcon,
+  ImagePlus,
   Settings,
   LogOut,
   Menu,
@@ -21,7 +22,8 @@ import {
 
 const menuItems = [
   { name: "الرئيسية", icon: LayoutDashboard, href: "/admin/dashboard" },
-  { name: "معرض الصور", icon: ImageIcon, href: "/admin/gallery" },
+  { name: "رفع صور المعرض", icon: ImagePlus, href: "/admin/gallery/new" },
+  { name: "معرض الصور (أعمالنا)", icon: ImageIcon, href: "/admin/gallery" },
   { name: "المشاريع والأعمال", icon: FolderKanban, href: "/admin/projects" },
   { name: "إعدادات الموقع والصور", icon: Settings, href: "/admin/settings" },
 ];

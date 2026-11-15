@@ -9,13 +9,13 @@ export async function generateMetadata(): Promise<Metadata> {
   const [siteName, settings] = await Promise.all([getSiteName(), getPublicSiteSettings()]);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://nakheel-seyaj.com";
   return { 
-    title: `اتصل بنا | طلب عرض سعر تركيب شبوك وتوريد نخيل | ${siteName}`, 
-    description: `تواصل مع ${siteName} لطلب معاينة ميدانية لموقعك وعرض سعر فوري لتسوير المزارع والأراضي بالشبوك المجلفنة أو توريد وزراعة النخيل في السعودية.`,
+    title: `اتصل بنا | طلب عرض سعر تركيب شبوك وتوريد نخيل وتركيب ثيل | ${siteName}`, 
+    description: `تواصل مع ${siteName} لطلب معاينة ميدانية لموقعك وعرض سعر فوري لتسوير المزارع والأراضي بالشبوك المجلفنة أو توريد وزراعة النخيل أو تركيب وتوريد الثيل في السعودية.`,
     alternates: {
       canonical: `${siteUrl}/contact`,
     },
     openGraph: {
-      title: `اتصل بنا | طلب عرض سعر تركيب شبوك وتوريد نخيل | ${siteName}`,
+      title: `اتصل بنا | طلب عرض سعر تركيب شبوك وتوريد نخيل وتركيب ثيل | ${siteName}`,
       description: `تواصل فوري عبر الواتساب والاتصال الهاتفي لمعاينة الموقع وطلب عروض الأسعار.`,
       url: `${siteUrl}/contact`,
     }
@@ -78,7 +78,7 @@ export default async function ContactPage() {
             <div className="relative mt-8 flex flex-col gap-3.5">
               {/* كارت محادثة الواتساب الفاخر */}
               <a 
-                href={`https://wa.me/${waNumber}?text=${encodeURIComponent("السلام عليكم ورحمة الله، أود الاستفسار عن خدمات الشبوك والنخيل")}`}
+                href={`https://wa.me/${waNumber}?text=${encodeURIComponent("السلام عليكم ورحمة الله، أود الاستفسار عن خدمات الشبوك والنخيل والثيل")}`}
                 target="_blank" 
                 rel="noreferrer" 
                 className="group relative flex items-center justify-between overflow-hidden rounded-2xl bg-gradient-to-r from-[#25D366] to-[#1ebe5d] p-5 text-white shadow-[0_12px_30px_rgba(37,211,102,0.3)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_36px_rgba(37,211,102,0.45)] active:scale-98"

@@ -89,6 +89,9 @@ export default defineType({
     defineField({ name: 'palmsServiceStep1', title: 'خطوة النخيل 1', type: 'string' }),
     defineField({ name: 'palmsServiceStep2', title: 'خطوة النخيل 2', type: 'string' }),
     defineField({ name: 'palmsServiceStep3', title: 'خطوة النخيل 3', type: 'string' }),
+    defineField({ name: 'theelServiceStep1', title: 'خطوة الثيل 1', type: 'string' }),
+    defineField({ name: 'theelServiceStep2', title: 'خطوة الثيل 2', type: 'string' }),
+    defineField({ name: 'theelServiceStep3', title: 'خطوة الثيل 3', type: 'string' }),
     defineField({ name: 'galleryLabel', title: 'شارة صفحة المعرض', type: 'string' }),
     defineField({ name: 'galleryEmptyTitle', title: 'عنوان المعرض الفارغ', type: 'string' }),
     defineField({ name: 'galleryEmptyDescription', title: 'وصف المعرض الفارغ', type: 'text' }),
@@ -130,6 +133,7 @@ export default defineType({
       name: 'categoryHomeImages', title: 'صور الأقسام', type: 'object', fields: [
         defineField({ name: 'fences', title: 'صورة قسم الشبوك', type: 'image', options: { hotspot: true } }),
         defineField({ name: 'palms', title: 'صورة قسم النخيل', type: 'image', options: { hotspot: true } }),
+        defineField({ name: 'theel', title: 'صورة قسم الثيل', type: 'image', options: { hotspot: true } }),
       ],
     }),
     defineField({ name: 'whatsapp', title: 'رقم واتساب', type: 'string' }),
